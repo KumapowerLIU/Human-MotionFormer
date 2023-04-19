@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Human MotionFormer: Transferring Human Motions with Vision Transformers">
+  <meta name="keywords" content="Transformer, Human Motion Transfer">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Human MotionFormer: Transferring Human Motions with Vision Transformers</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/madscientist.jpg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://kumapowerliu.github.io">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+<!--      <div class="navbar-item has-dropdown is-hoverable">-->
+<!--        <a class="navbar-link">-->
+<!--          More Research-->
+<!--        </a>-->
+<!--        <div class="navbar-dropdown">-->
+<!--          <a class="navbar-item" href="https://github.com/kristen-rang/FFCLIP">-->
+<!--            FFCLIP-->
+<!--          </a>-->
+<!--          <a class="navbar-item" href="https://github.com/KumapowerLIU/DeFLOCNet">-->
+<!--            DeFLOCNet-->
+<!--          </a>-->
+<!--        </div>-->
+<!--      </div>-->
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Human MotionFormer: Transferring Human Motions with Vision Transformers</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://kumapowerliu.github.io">Hongyu Liu</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://xthan.github.io">Xintong Han</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=ZC8HNA0AAAAJ&hl=ko">Chenbin Jin</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=Hkzfmf0AAAAJ&hl=zh-CN">Lihui Qian</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="#">Huawei Wei</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="#">Zhe Lin</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="#">Faqiang Wang</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://sites.google.com/view/hydong">Haoye Dong</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://ybsong00.github.io/">Yibing Song</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://pages.cs.wisc.edu/~jiaxu/">Jia Xu</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://cqf.io/">Qifeng Chen</a><sup>2</sup>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>HKUST,</span>
+            <span class="author-block"><sup>2</sup> Huya Inc,</span>
+            <span class="author-block"><sup>3</sup> Tencent,</span>
+            <span class="author-block"><sup>4</sup> AI<sup>3</sup>Institute, Fudan University,</span>
+            <span class="author-block"><sup>5</sup> CMU,</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://openreview.net/pdf?id=lQVpasnQS62"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2302.11306.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href="https://recorder-v3.slideslive.com/?share=80220&s=a11ffbe0-2060-4dec-9736-2c67ffc1fea0"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/KumapowerLIU/Human-MotionFormer"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+            <img src="./static/images/MotionFormer.gif"
+                 class="teaser-image"
+                 alt="Teaser."/>
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">MotionFormer</span> transfer the target motion(i.e., human skeleton sequence) to the source person(i.e., woman image).
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+              Human motion transfer aims to transfer motions from a target dynamic person to a source static one for motion synthesis.
+            An accurate matching between the source person and the target motion in both large and subtle motion changes is vital for improving the transferred motion quality.
+            In this paper, we propose Human MotionFormer, a hierarchical ViT framework that leverages global and local perceptions to capture large and subtle motion matching, respectively.
+            It consists of two ViT encoders to extract input features (i.e., a target motion image and a source human image) and a ViT decoder with several cascaded blocks for feature matching and motion transfer.
+            In each block, we set the target motion feature as Query and the source person as Key and Value, calculating the cross-attention maps to conduct a global feature matching.
+            Further, we introduce a convolutional layer to improve the local perception after the global cross-attention computations.
+            This matching process is implemented in both warping and generation branches to guide the motion transfer.
+            During training, we propose a mutual learning loss to enable the co-supervision between warping and generation branches for better motion representations.
+            Experiments show that our Human MotionFormer sets the new state-of-the-art performance both qualitatively and quantitatively.
+                        </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <div class="columns is-centered">
+
+      <!-- Method. -->
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Motivation</h2>
+<!--          <p>-->
+<!--            To find the proper latent code in W space, we follow the CLIP and propose a <i>contrastive learning</i> based method to align the image space and latent space. After alignment, we set the contrastive-->
+<!--            process as a loss similar to the CLIP to get the proper latent code during inverison.-->
+<!--          </p>-->
+            <img src="./static/images/Motivation.png"
+                 class="motivation-image"
+                 alt="image."/>
+        </div>
+
+
+
+      <!-- Method. -->
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Pipeline</h2>
+          <p>
+            Overview of our MotionFormer framework. We use two Transformer encoders to extract features of the source image I<SUB>s</SUB> and the target pose image P<SUB>t</SUB>.
+            These two features are hierarchically combined in one Transformer decoder where there are multiple decoder blocks.
+            Finally, a fusion block synthesizes the output image by blending the warped and generated images.
+          </p>
+            <img src="./static/images/pipeline.png"
+                 class="pipeline-image"
+                 alt="image."/>
+        </div>
+
+        <div class="content">
+          <h2 class="title is-3">Decoder and Fusion Blocks</h2>
+          <p>
+            Overview of our decoder and fusion blocks. There are warping and generation branches in these two blocks.
+            In decoder block, We build the global and local correspondence between source image and target pose with Multi-Head Cross-Attention and CNN respectively. The fusion block predict an mask to combine the output of two branches in pixel level.
+
+          </p>
+            <img src="./static/images/decoder.png"
+                 class="decoder-image"
+                 alt="image."/>
+        </div>
+        <div class="content">
+          <h2 class="title is-3">Mutual Learning Loss</h2>
+            <img src="./static/images/Loss.png"
+                 class="loss-image"
+                 alt="image."/>
+        </div>
+      </div>
+
+
+
+
+      <!-- Results. -->
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Results on  iPer dataset.</h2>
+            <img src="./static/images/Results1.png"
+                 class="results"
+                 alt="image."/>
+        </div>
+      </div>
+            <!-- Results. -->
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Results on YouTube videos dataset.</h2>
+            <img src="./static/images/Results2.png"
+                 class="results"
+                 alt="image."/>
+        </div>
+        <div class="column content">
+          <h2 class="title is-3">Supplementary Video.</h2>
+            <video id="matting-video" controls playsinline height="100%">
+              <source src="./static/images/1350_SupplementaryVideo.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+      </div>
+
+      <!--/ Visual Effects. -->
+
+<!--      &lt;!&ndash; Matting. &ndash;&gt;-->
+<!--      <div class="column">-->
+<!--        <h2 class="title is-3">Matting</h2>-->
+<!--        <div class="columns is-centered">-->
+<!--          <div class="column content">-->
+<!--            <p>-->
+<!--              As a byproduct of our method, we can also solve the matting problem by ignoring-->
+<!--              samples that fall outside of a bounding box during rendering.-->
+<!--            </p>-->
+<!--            <video id="matting-video" controls playsinline height="100%">-->
+<!--              <source src="./static/videos/matting.mp4"-->
+<!--                      type="video/mp4">-->
+<!--            </video>-->
+<!--          </div>-->
+
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    &lt;!&ndash;/ Matting. &ndash;&gt;-->
+
+<!--    &lt;!&ndash; Animation. &ndash;&gt;-->
+<!--    <div class="columns is-centered">-->
+<!--      <div class="column is-full-width">-->
+<!--        <h2 class="title is-3">Animation</h2>-->
+
+<!--        &lt;!&ndash; Interpolating. &ndash;&gt;-->
+<!--        <h3 class="title is-4">Interpolating states</h3>-->
+<!--        <div class="content has-text-justified">-->
+<!--          <p>-->
+<!--            We can also animate the scene by interpolating the deformation latent codes of two input-->
+<!--            frames. Use the slider here to linearly interpolate between the left frame and the right-->
+<!--            frame.-->
+<!--          </p>-->
+<!--        </div>-->
+<!--        <div class="columns is-vcentered interpolation-panel">-->
+<!--          <div class="column is-3 has-text-centered">-->
+<!--            <img src="./static/images/interpolate_start.jpg"-->
+<!--                 class="interpolation-image"-->
+<!--                 alt="Interpolate start reference image."/>-->
+<!--            <p>Start Frame</p>-->
+<!--          </div>-->
+<!--          <div class="column interpolation-video-column">-->
+<!--            <div id="interpolation-image-wrapper">-->
+<!--              Loading...-->
+<!--            </div>-->
+<!--            <input class="slider is-fullwidth is-large is-info"-->
+<!--                   id="interpolation-slider"-->
+<!--                   step="1" min="0" max="100" value="0" type="range">-->
+<!--          </div>-->
+<!--          <div class="column is-3 has-text-centered">-->
+<!--            <img src="./static/images/interpolate_end.jpg"-->
+<!--                 class="interpolation-image"-->
+<!--                 alt="Interpolation end reference image."/>-->
+<!--            <p class="is-bold">End Frame</p>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <br/>-->
+<!--        &lt;!&ndash;/ Interpolating. &ndash;&gt;-->
+
+<!--        &lt;!&ndash; Re-rendering. &ndash;&gt;-->
+<!--        <h3 class="title is-4">Re-rendering the input video</h3>-->
+<!--        <div class="content has-text-justified">-->
+<!--          <p>-->
+<!--            Using <span class="dnerf">Nerfies</span>, you can re-render a video from a novel-->
+<!--            viewpoint such as a stabilized camera by playing back the training deformations.-->
+<!--          </p>-->
+<!--        </div>-->
+<!--        <div class="content has-text-centered">-->
+<!--          <video id="replay-video"-->
+<!--                 controls-->
+<!--                 muted-->
+<!--                 preload-->
+<!--                 playsinline-->
+<!--                 width="75%">-->
+<!--            <source src="./static/videos/replay.mp4"-->
+<!--                    type="video/mp4">-->
+<!--          </video>-->
+<!--        </div>-->
+<!--        &lt;!&ndash;/ Re-rendering. &ndash;&gt;-->
+
+      </div>
+    </div>
+    <!--/ Animation. -->
+
+
+    <!-- Concurrent Work. -->
+<!--    <div class="columns is-centered">-->
+<!--      <div class="column is-full-width">-->
+<!--        <h2 class="title is-3">Related Links</h2>-->
+
+<!--        <div class="content has-text-justified">-->
+<!--          <p>-->
+<!--            There's a lot of excellent work that was introduced around the same time as ours.-->
+<!--          </p>-->
+<!--          <p>-->
+<!--            <a href="https://arxiv.org/abs/2104.09125">Progressive Encoding for Neural Optimization</a> introduces an idea similar to our windowed position encoding for coarse-to-fine optimization.-->
+<!--          </p>-->
+<!--          <p>-->
+<!--            <a href="https://www.albertpumarola.com/research/D-NeRF/index.html">D-NeRF</a> and <a href="https://gvv.mpi-inf.mpg.de/projects/nonrigid_nerf/">NR-NeRF</a>-->
+<!--            both use deformation fields to model non-rigid scenes.-->
+<!--          </p>-->
+<!--          <p>-->
+<!--            Some works model videos with a NeRF by directly modulating the density, such as <a href="https://video-nerf.github.io/">Video-NeRF</a>, <a href="https://www.cs.cornell.edu/~zl548/NSFF/">NSFF</a>, and <a href="https://neural-3d-video.github.io/">DyNeRF</a>-->
+<!--          </p>-->
+<!--          <p>-->
+<!--            There are probably many more by the time you are reading this. Check out <a href="https://dellaert.github.io/NeRF/">Frank Dellart's survey on recent NeRF papers</a>, and <a href="https://github.com/yenchenlin/awesome-NeRF">Yen-Chen Lin's curated list of NeRF papers</a>.-->
+<!--          </p>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+    <!--/ Concurrent Work. -->
+
+
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@inproceedings{liuhuman,
+  title={Human MotionFormer: Transferring Human Motions with Vision Transformers},
+  author={Liu, Hongyu and Han, Xintong and Jin, Chenbin and Qian, Lihui and Wei, Huawei and Lin, Zhe and Wang, Faqiang and Dong, Haoye and Song, Yibing and Xu, Jia and others},
+  booktitle={The Eleventh International Conference on Learning Representations}
+}
+</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="https://arxiv.org/pdf/2302.11306.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/KumapowerLIU" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This means you are free to borrow the <a
+              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
+            we just ask that you link back to this page in the footer.
+            Please remember to remove the analytics code included in the header of the website which
+            you do not want on your website.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
